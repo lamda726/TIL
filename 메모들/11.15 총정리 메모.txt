@@ -1,0 +1,178 @@
+05_File처리(파이썬 파일)
+
+## python의 기본 파일처리
+
+## 먼저 파일 handle을 획득해야 해요!
+## 사용할 데이터 파일을 오픈해요!
+## 읽기용도, 쓰기용도
+
+file1 = open("student_score.txt","r")
+file2 = open("backup.txt","w") # 하나의 파일의 내용을 다른 파일에 복붙하기 위한 용도로 만들어진 파일
+
+# 학생 성적 파일에서 한줄씩 읽어와서
+# output console에 출력하고 해당 내용을 백업 파일에 저장
+
+while True:
+    line = file1.readline()
+#     print(line)   # 출력한 다음 한줄을 띈다!
+    print(line, end = "") # 이렇게 써주면 줄 간격 없어진다
+    if not line: # 마지막 줄 끝나면 line 없는 상황이 되기 때문 
+        break;   # 가장 가까운 반복문을 탈출
+    file2.write(line)
+
+file1.close()
+file2.close()
+
+# 아이유,92,94,99(개행문자 \n)
+# 김연아,17,20,22(개행문자 \n)
+
+print(type(line))
+
+=====================================================================
+
+06_Module(1115)(파이썬 파일)
+
+## python은 module을 사용해요
+## module : 하나의 python 파일 => 변수, 함수, class
+## 파이썬의 module은 다른 파이썬 프로그램에서 불러와 사용할 수 있는
+## 파이썬 파일을 지칭 (모든 파이썬 파일은 module로 사용할 수 있다!)
+
+## 우리가 생성한 module을 어디에 저장해 놔야 할까요?
+
+import sys  # sys라는 module을 불러와서 사용할 거예요
+sys.path.append("C:/python_Lib")   # sys.path가 리스트 형태인 것( 그래서 append 사용)
+                                   # 모듈을 저장할 수 있는 폴더를 지정 => C:/python_Lib
+    
+
+## 주피터 노트북 킬 때마다 sys.path.append("C:/python_Lib") 입력한 후 모듈 사용하는 것 보다는
+
+## 환경변수 PYTHONPATH라는걸 만들어서 여기에 module을 넣어놓으면
+## 프로그램을 어디에서나 사용할 수 있어요!
+
+## module을 사용하는 형식은
+## import 모듈명(파일명)
+
+# import module1  # 확장자는 적지 않는다! 이름만!
+
+# print(module1.module_Pi)
+# print(module1.mySum(10,20))
+
+# alias를 이용해서 편하게 사용해보자!
+# import module1 as m   # (별명 붙여줘서 간단하게 사용하기)
+
+# print(m.module_Pi)
+# print(m.mySum(10,20))
+
+# from 모듈이름 import 모듈함수(or 변수 or 클래스)
+# from module1 import module_Pi
+
+from module1 import *
+print(module_Pi)
+print(mySum(10,11))
+
+# module과 package
+
+# package : "." 기호를 이용해서 module을 계층적으로 관리
+# package는 물리적으로 확인할 때는 => 폴더로 표현!
+# 즉 패키지는 모듈을 관리하기 위한 폴더 개념인 거!
+
+# A.B 라고 할 때 A : package, B : module
+
+# import myPackage.module1
+
+from myPackage import module1 # 패키지부터 명시하고 어떤 모듈 쓸지 정하고 사용,
+                               # 앞으로 이런 형태 많이 사용할 것 
+
+print(module1.module_Pi)
+
+# from myPackage.module1 import mySum => 이렇게도 사용 가능
+# print(mySum(10,20))
+
+
+=======================================================================
+모듈 만든 것( 이거 사용해서 문제 8번 풀었어요)
+=> 모듈 저장공간에서 text파일형식으로 새로운 파일 만든 후 형식을 .py로 저장
+ 
+class Student:
+    # class variable
+    
+    # 생성자(constructor)
+    def __init__(self,n,k,e,m):
+        self.sName = n
+        self.sKor = int(k)  # 문자 형태로 들어와 있는 성적을 숫자 형태로 변경시켜줘야함
+        self.sEng = int(e)
+        self.sMath = int(m)
+        self.sAvg = self.calcul_avg()
+        
+    
+    # method
+    def calcul_avg(self):   # self 꼭 넣어줘야함
+        return (self.sKor + self.sEng + self.sMath) / 3
+    
+    
+    def print_student(self):
+        print("학생의 이름은 : {}, 평균은 : {:.2f}".format(self.sName,self.sAvg))
+
+
+
+=======================================================================
+# 문제 8
+
+## student_score.txt의 내용을 읽어서
+## 학생 성적에 대한 전체 평균을 구하고
+## 성적 순으로 출력하세요!
+## 출력형식 : 이름, 성적평균, 등수
+
+## 학생 1명의 정보 => dict로 표현
+## {"name" : "홍길동", "kor" : 10, "eng" : 30, "math" : 50}
+## 이렇게 만든 학생 dict를 list안에 순차적으로 저장
+
+import student_score as ss
+import operator # 정렬을 편하게 하기 위해서 사용하는 외부모듈
+
+result = list()
+
+studentFile = open("student_score.txt","r")
+
+while True:
+    stu = (studentFile.readline()).replace("\n","")
+    if stu == "":
+        break;
+    stu_list = stu.split(",") # ","를 기준으로 문자열을 분리 (토크나이징)
+                              # 리스트로 리턴해줘요
+                              # ['홍길동','18','7','19']
+    print(stu_list)
+    result.append(ss.Student(stu_list[0],stu_list[1],stu_list[2],stu_list[3]))
+
+## 정상적으로 데이터가 생성되었는지 확인
+
+for s in result:
+    s.print_student()
+
+# ## 정렬을 해 보아요!  # attrgetter : property의 값을 추출
+sorted_result = sorted(result, key = operator.attrgetter("sAvg")) # 성적 순으로 정렬
+
+# 정렬된 결과를 확인해보아요
+for s in sorted_result:
+    s.print_student()
+
+===================================================================
+# 문제 9 ( 아무것도... )
+# mpg data set에 대해서 다음의 내용을 수행하세요
+
+
+# 1. displ(배기량)이 4 이하인 자동차와 5 이상인 자동차 중 어떤 자동차의 hwy(고속도로 연비)가 평균적으로 더 높은지 확인하세요.
+
+# 2. 자동차 제조 회사에 따라 도시 연비가 다른지 알아보려고 한다. "audi"와 "toyota" 중 어느 manufacturer(제조회사)의 cty(도시 연비)가 평균적으로 더 높은지 확인하세요.
+
+# 3. "chevrolet", "ford", "honda" 자동차의 고속도로 연비 평균을 알아보려고 한다. 이 회사들의 데이터를 추출한 후 hwy(고속도로 연비) 전체 평균을 구하세요.
+
+# 4. "audi"에서 생산한 자동차 중에 어떤 자동차 모델의 hwy(고속도로 연비)가 높은지 알아보려고 한다. "audi"에서 생산한 자동차 중 hwy가 1~5위에 해당하는 자동차의 데이터를 출력하세요.
+
+# 5. mpg 데이터는 연비를 나타내는 변수가 2개입니다. 두 변수를 각각 활용하는 대신 하나의 통합 연비 변수를 만들어 사용하려 합니다. 평균 연비 변수는 두 연비(고속도로와 도시)의 평균을 이용합니다. 회사별로 "suv" 자동차의 평균 연비를 구한후 내림차순으로 정렬한 후 1~5위까지 데이터를 출력하세요.
+
+# 6. mpg 데이터의 class는 "suv", "compact" 등 자동차의 특징에 따라 일곱 종류로 분류한 변수입니다. 어떤 차종의 도시 연비가 높은지 비교하려 합니다. class별 cty 평균을 구하고 cty 평균이 높은 순으로 정렬해 출력하세요.
+
+# 7. 어떤 회사 자동차의 hwy(고속도로 연비)가 가장 높은지 알아보려 합니다. hwy(고속도로 연비) 평균이 가장 높은 회사 세 곳을 출력하세요.
+
+# 8. 어떤 회사에서 "compact" 차종을 가장 많이 생산하는지 알아보려고 합니다. 각 회사별 "compact" 차종 수를 내림차순으로 정렬해 출력하세요.

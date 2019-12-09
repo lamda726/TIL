@@ -1,0 +1,101 @@
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame({ "이름" : ["홍길동", "김연아", "아이유", "김길동", "신사임당"],
+                    "성적" : [1.5, 4.4, 4.5, 2.3, 4.0],
+                    "학과" : ["컴퓨터", "철학", "컴퓨터", "철학", "컴퓨터"],
+                    "학년" : [1, 2, 3, 2, 2]})
+display(df)
+# "학과" column을 index로 변경 : 데이터프레임.set_index("변경할 column명")
+new_df = df.set_index("학과")
+display(new_df)
+# "학과"와 "학년" column을 index로 변경
+new_df = df.set_index(["학과","학년"])
+display(new_df)
+# 바꾼 new_df를 원래 상태로 복구 : 데이터프레임.reset_index()
+origin_df = new_df.reset_index()
+display(origin_df)
+
+#########################################################################
+import numpy as np
+import pandas as pd
+
+np.random.seed(1)
+
+df = pd.DataFrame(np.random.randint(1,5,(2,3)),
+                 index=["서울","부산"],
+                 columns=["마케팅","개발","운영"])
+display(df)
+new_df = df.stack() # column을 index의 최하위 index로 생성
+display(new_df)
+origin_df = new_df.unstack() # index의 최하위 index를 column으로 생성
+display(origin_df)
+origin_df = new_df.unstack(level=0) # index의 첫번째 level을 index를 column으로 생성
+display(origin_df)
+
+###########################################################################
+# 중복행 제거(추출)
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame({ "k1" : ["one"]*3 + ["two"]*4,
+                    "k2" : [1,1,2,3,3,4,4]})
+display(df)
+df.duplicated() # MASK
+#0    False
+#1     True
+#2    False
+#3    False
+#4     True
+#5    False
+#6     True
+#dtype: bool
+
+df.loc[df.duplicated(),:] ## 모든 중복항들이 다 나와요!
+df.loc[~df.duplicated(),:]## 중복항이 아닌 것들 나와
+df.drop_duplicates()      ## 중복항을 모두 제거할 수 있어요!
+## 우리가 사용할 데이터를 정제할 때 중복항을 제거해요!
+############################################################################
+## DataFrame의 grouping
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame({ "이름" : ["홍길동", "김연아", "아이유", "김길동", "신사임당"],
+                    "성적" : [1.5, 4.4, 4.5, 2.3, 4.0],
+                    "학과" : ["컴퓨터", "철학", "컴퓨터", "철학", "컴퓨터"],
+                    "학년" : [1, 2, 3, 2, 2]})
+display(df)
+
+# 학과를 기준으로 grouping => 성적을 학과로 groping 할거야
+dept = df["성적"].groupby(df["학과"])
+dept.mean()
+#학과
+#철학     3.350000
+#컴퓨터    3.333333
+#Name: 성적, dtype: float64
+
+#학과와 학년을 기준으로 성적을 grouping
+dept = df["성적"].groupby([df["학과"],df["학년"]])
+dept.mean()
+#학과   학년
+#철학   2     3.35
+#컴퓨터  1     1.50
+#     2     4.00
+#     3     4.50
+#Name: 성적, dtype: float64
+dept.mean().unstack() # 학년을 column으로 보냄
+#학년	1	2	3
+#학과			
+#철학	NaN	3.35	NaN
+#컴퓨터	1.5	4.00	4.5
+dept.mean().unstack(level=0) # 학과를 column으로 보냄
+
+####################################################
+
+# pandas에 대한 내용이 끝나요~~!~~!
+# mpg data set부터 시작해보아요!(차량제조사, 도시연비, 고속도로연비)
+# R에서 데이터 추출해서 CSV파일로 만들고 이거 이용해서 
+# pandas에서 DataFrame을 만들고 pandas를 이용해서 문제를 해결
+# 공유폴더에 가시면 연습문제(1105) 폴더에 
+# mpg data set 연습문제.txt 파일이 있어요.
+# 이 내용을 pandas로 천천히 해결해 보세요.

@@ -1,0 +1,30 @@
+10.30 오전수업
+
+mysql database server를 가동
+mysqld
+
+web어플리케이션을 실행해서 도서검색 프로그램을 웹에 deploy
+=> http://localhost:8080/bookSearch/search?keyword=여행
+
+
+R에서 크롤링 스크래핑 처리
+
+- 네이버 영화댓글
+https://movie.naver.com/movie/point/af/list.nhn?&page=7
+
+
+로튼토마토 사이트에서
+2019년 가장 인기있는 영화 100개에 대해서
+영화제목, User rating, Genre
+부분을 추출해서 Data Frame으로 만들고 파일로 출력해보자!
+
+-> 이 문제 수행평가 때 쓸것!!!
+
+
+//*[@id="topSection"]/div[2]/div[1]/section/section/div[2]/div/strong
+
+//*[@id="top_movies_main"]/div/table/tr[1]/td[3]
+
+
+토이스토리 //*[@id="topSection"]/div[2]/div[1]/section/section/div[2]/div/strong
+북스마트 //*[@id="topSection"]/div[2]/div[1]/section/section/div[2]/div/strong

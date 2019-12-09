@@ -1,0 +1,45 @@
+
+10.29(화)
+
+- 도서검색 프로그램 완성(JSON parsing)
+- open API 활용 
+  영화진흥위원회=> open API 제공
+  날짜별 박스오피스 순위 등을 알아낼 수 있음
+
+
+
+강사님용 IP : 
+
+?이후의 문자열 => Query String이라고 한다.
+Query String의 형식은 key = value의 형식으로 데이터를 전달하기 위해서 사용.
+
+http://localhost:8080/bookSearch/search?keyword=java
+http://localhost:8080/bookSearch/search(여기까지가 쿼리)?keyword=java(쿼리 스트링)
+
+
+라운드트립 방식: 새로운 창 넘어갈 때 기존 화면이 날라가는 방식
+AJAX 방식: 서버쪽 화면을 호출해서 클라이언트 화면을 제어하는 방식...?(ex: 댓글창)
+
+우리 프로젝트를 웹클라이언트가 지칭하기 위해서 사용하는 프로젝트에 대한 논리적인 이름
+: context root (우리는 ajax라고 설정)
+
+http://localhost:8080/ajax/NewFile.html
+
+java package : com.test
+class name : AddServlet
+url mapping : /add 로 바꿔주자 
+
+이렇게 클라이언트 웹 브라우저 화면이 refresh되는 프로그램 호출방식을 라운드 트립 방식이라고 한다
+
+- open API 활용 
+영화진흥위원회 키
+18df3d69c33fa067b0709638aba627a9
+
+http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=18df3d69c33fa067b0709638aba627a9&targetDt=20191028
+
+http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=430156241533f1d058c603178cc3ca0e&targetDt=20181030
+
+웹스톰에서...
+
+대괄호는
+중괄호는
