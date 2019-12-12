@@ -6,7 +6,9 @@
 var = input('문자를 입력하세요: ')
 
 # 아래에 코드를 작성해 주세요.
-# print(str[0],str[-1])
+# print(str[0],str[-1])  # 나의 코드
 
 print('첫 번째 글자는 :{}'.format(var[0]))
 print('마지막 글자는 :{}'.format(var[-1]))
+
+# built-in 함수의 이름을 변수명으로 쓰면 안된다!
