@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <style>
+        #main-header {
+            color: royalblue;
+        }
+        .hellobox {
+            height: 100px;
+            background-color: salmon;
+        }
+        p {
+            font-size: 35px;
+        }
+    </style>
 </head>
 <body>
     <!-- Heading -->
-    <h1>Hi,h1!</h1>
+    <h1 id="main-header">웰컴페이지</h1>
     <h2>Hi,h2!</h2>
     <h3>Hi,h3!</h3>
     <h4>Hi,h4!</h4>
@@ -51,9 +64,15 @@
     </ul>
 
     <!-- div : 임의의 공간을 지정(선택) -->
-    <div style="height: 150px;">
+    <div class="hellobox">
         <p>안녕하세요</p>
     </div>
+    <div class="hellobox">
+        <p>안녕하세요</p>
+    </div>
+    <div class="hellobox">
+        <p>안녕하세요</p>
+    </div>     
 
 </body>
 </html>
